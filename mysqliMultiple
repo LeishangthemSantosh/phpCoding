@@ -1,0 +1,72 @@
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "registrationtable";
+$conn = mysqli_connect($servername,$username,$password,$dbname);
+    
+if(!$conn) {
+    die("Connection failed:".mysqli_connect_error());
+}
+else {
+    echo "Connected";
+}
+
+$first_name = $_POST['fname'];
+$last_name = $_POST['lname'];
+$email = $_POST['email'];
+$add = $_POST['add'];
+$state = $_POST['state'];
+$district = $_POST['district'];
+$pin = $_POST['pin'];
+
+
+$sql1 = "INSERT INTO reg_table (fname,lname,email) VALUES ('$first_name','$last_name','$email')";
+$sql2 = "INSERT INTO add_table (add_name) VALUES ('$add')";
+$sql3 = "INSERT INTO state_table (st_name) VALUES ('$state')";
+$sql4 = "INSERT INTO dis_table (dis_name, pin_no) VALUES ('$district','$pin')";
+
+// insert in database 
+$rs1 = mysqli_query($conn, $sql1);
+$rs2 = mysqli_query($conn, $sql2);
+$rs3 = mysqli_query($conn, $sql3);
+$rs4 = mysqli_query($conn, $sql4);
+
+if($rs1)
+{
+	echo "Contact Records Inserted";
+}
+else {    
+    echo "Not Inserted";
+    echo "Error: " . $sql1 . "<br>" . mysqli_error($conn);
+}
+
+if($rs2)
+{
+	echo "Contact Records Inserted";
+}
+else {    
+    echo "Not Inserted";
+    echo "Error: " . $sql2 . "<br>" . mysqli_error($conn);
+}
+
+if($rs3)
+{
+	echo "Contact Records Inserted";
+}
+else {    
+    echo "Not Inserted";
+    echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+}
+
+if($rs4)
+{
+	echo "Contact Records Inserted";
+}
+else {    
+    echo "Not Inserted";
+    echo "Error: " . $sql4 . "<br>" . mysqli_error($conn);
+}
+
+?>
