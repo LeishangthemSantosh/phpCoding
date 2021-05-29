@@ -1,0 +1,52 @@
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+$first_name = $_POST['fname'];
+$last_name = $_POST['lname'];
+$email = $_POST['email'];
+$add = $_POST['add'];
+$state = $_POST['state'];
+$district = $_POST['district'];
+$pin = $_POST['pin'];
+
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=registrationtable", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql1 = "INSERT INTO add_table(add_name) VALUES(?)";
+    $conn->prepare($sql1)->execute([$add]);
+    $conn->exec($sql1);
+
+    $sql = "INSERT INTO reg_table(fname,lname,email) VALUES(?,?,?)";
+    $conn->prepare($sql)->execute([$first_name,$last_name,$email]);
+    $conn->exec($sql);
+
+    $sql2 = "INSERT INTO state_table(st_name) VALUES(?)";
+    $conn->prepare($sql2)->execute([$state]);
+    $conn->exec($sql2);
+
+    $sql3 = "INSERT INTO dis_table(dis_name, pin_no) VALUE(?,?)";
+    $conn->prepare($sq3l)->execute([$district, $pin]);
+    $conn->exec($sql3);
+    
+    echo "New record created successfully";
+    }
+catch(PDOException $e) {
+    echo $sql . "<br>" . $e->getMessage();   
+    }
+catch(Exception $e) {
+    echo $sql1 . "<br>" . $e->getMessage();
+}
+
+catch(Exception $e) {
+    echo $sql2 . "<br>" . $e->getMessage();
+}
+catch(Exception $e) {
+    echo $sql3 . "<br>" . $e->getMessage();
+}
+$conn = null;
+?>
