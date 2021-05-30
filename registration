@@ -1,0 +1,69 @@
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "registrationtable";
+$conn = mysqli_connect($servername,$username,$password,$dbname);
+
+if(!$conn) {
+    die("Connection failed:".mysqli_connect_error());
+}
+else {
+    echo "Connected";
+}
+
+$first_name = $_POST['fname'];
+$last_name = $_POST['lname'];
+$email = $_POST['email'];
+$add = $_POST['add'];
+$state = $_POST['state'];
+$district = $_POST['district'];
+$pin = $_POST['pin'];
+
+
+$sql1 = "INSERT INTO reg_table (fname,lname,email) VALUES ('$first_name','$last_name','$email')";
+
+$rs1 = mysqli_query($conn, $sql1);
+
+
+if ($rs1) { 
+    $latest_id1 =  mysqli_insert_id($conn);    
+    echo "Insert successful. Latest ID for reg is: " . $latest_id1;
+  } else { 
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  }
+
+$sql2 = "INSERT INTO add_table (add_name, reg_id) VALUES ('$add','$latest_id1')";
+$rs2 = mysqli_query($conn, $sql2);
+
+if ($rs2) { 
+    $latest_id2 =  mysqli_insert_id($conn);    
+    echo "Insert successful. Latest ID  for add is: " . $latest_id2;
+  } else { 
+    echo "Error: " . $sql2 . "<br>" . mysqli_error($conn);
+  }
+
+
+$sql3 = "INSERT INTO state_table (st_name,reg_id,add_id) VALUES ('$state','$latest_id1',$latest_id2)";
+$rs3 = mysqli_query($conn, $sql3);
+
+if ($rs3) { 
+    $latest_id3 =  mysqli_insert_id($conn);    
+    echo "Insert successful. Latest ID for state is: " . $latest_id3;
+  } else { 
+    echo "Error: " . $sql3 . "<br>" . mysqli_error($conn);
+  }
+
+  
+$sql4 = "INSERT INTO dis_table (dis_name, pin_no, reg_id, add_id, st_id) VALUES ('$district','$pin','$latest_id1','$latest_id2','$latest_id3')";
+$rs4 = mysqli_query($conn, $sql4);
+
+if ($rs4) { 
+    $latest_id4 =  mysqli_insert_id($conn);    
+    echo "Insert successful. Latest ID dis is: " . $latest_id4;
+  } else { 
+    echo "Error: " . $sql4 . "<br>" . mysqli_error($conn);
+  }
+
+?>
